@@ -228,18 +228,18 @@ def webhook():
                 ]
             })
             
-         # 合并 DataFrame
-         all_abstracts = [liked_abstract] + json.loads(more_abstracts)
-         df_to_summarize = pd.DataFrame(all_abstracts, columns=["original_abstract"])
+        # 合并 DataFrame
+        all_abstracts = [liked_abstract] + json.loads(more_abstracts)
+        df_to_summarize = pd.DataFrame(all_abstracts, columns=["original_abstract"])
 
-         # 调用 T5 摘要函数
-         summary_text = summarize_papers_with_t5(df_to_summarize)
+        # 调用 T5 摘要函数
+        summary_text = summarize_papers_with_t5(df_to_summarize)
  
-         return jsonify({
-             "fulfillmentMessages": [
-                 {"text": {"text": [f"📝 Summary of Selected Papers:\n\n{summary_text}"]}}
-             ]
-         })
+        return jsonify({
+            "fulfillmentMessages": [
+                {"text": {"text": [f"📝 Summary of Selected Papers:\n\n{summary_text}"]}}
+            ]
+        })
 
 
     # 兜底情况
