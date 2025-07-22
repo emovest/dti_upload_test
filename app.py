@@ -6,6 +6,7 @@ from recommender import predict, recommend_paper
 import json
 import pandas as pd
 from summarize_papers_with_t5 import summarize_papers_with_t5 
+from clustering import get_cluster_count, get_top_bigrams
 
 
 
@@ -239,6 +240,23 @@ def webhook():
             ]
         })
 
+
+    elif intent == "getCryptoClustering":
+        label = "a"  # 写死 label
+        count = get_cluster_count(label)
+
+        all_keywords = []  # 初始化列表
+        
+        for cluster_id in range(count):
+            top_bigrams = get_top_bigrams(label, cluster_id)
+            bigram_str = f"Cluster {cluster_id+1}: " + ", ".join(top_bigrams)
+            all_keywords.append(bigram_str)
+        
+        keywords_text = "\n".join(all_keywords)
+        
+        return jsonify({
+            "fulfillmentText": f"There are {count} main clusters in the Crypto domain.\n\nTop keywords for each cluster:\n{keywords_text}"
+        })
 
 
     # 兜底情况
