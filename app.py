@@ -233,8 +233,12 @@ def webhook():
         print(type(summary_text))
         
         return jsonify({
-            "fulfillmentText": str(summary_text)
+            "fulfillmentMessages": [
+                {"text": {"text": ["📄 Summary of Selected Papers:"]}},
+                {"text": {"text": [summary_text]}}
+            ]
         })
+
 
 
     # 兜底情况
