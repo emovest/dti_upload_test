@@ -8,8 +8,19 @@ t5_model = T5ForConditionalGeneration.from_pretrained("google/t5-efficient-tiny"
 
 
 def summarize_papers_with_t5(papers_df, text_column="original_abstract", max_tokens=400, min_tokens=200):
+    print("✅ Received DataFrame:")
+    print(papers_df.head())
+
+    if text_column not in papers_df.columns:
+        return f"❌ Column '{text_column}' not found in DataFrame."
+
     abstracts = papers_df[text_column].tolist()
+
+    if not abstracts:
+        return "❌ No abstracts found to summarize."
+    
     full_text = " ".join(abstracts)
+    print("📌 Full input text length:", len(full_text))
     
     # 给 T5 加上任务前缀
     full_text = full_text[:384]
