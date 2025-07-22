@@ -15,4 +15,5 @@ def extractive_summary_sumy(abstracts_list, num_sentences=5):
     summarizer = LexRankSummarizer()
     summary = summarizer(parser.document, num_sentences)
 
+    
     return " ".join(str(sentence) for sentence in summary)
