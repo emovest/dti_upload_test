@@ -8,8 +8,6 @@ import pandas as pd
 from summarize_papers_with_t5 import summarize_papers_with_t5 
 from clustering import get_cluster_count, get_top_bigrams
 from extractive_summary import extractive_summary_sumy
-import nltk
-nltk.download('punkt', quiet=True)
 
 
 
