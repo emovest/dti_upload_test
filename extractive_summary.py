@@ -1,6 +1,8 @@
 from sumy.parsers.plaintext import PlaintextParser
 from sumy.nlp.tokenizers import Tokenizer
 from sumy.summarizers.lex_rank import LexRankSummarizer
+import nltk
+nltk.download('punkt')
 
 # 提取式摘要函数
 def extractive_summary_sumy(abstracts_list, num_sentences=5):
