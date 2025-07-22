@@ -11,18 +11,18 @@ def summarize_papers_with_t5(papers_df, text_column="original_abstract", max_tok
     full_text = " ".join(abstracts)
     
     # 给 T5 加上任务前缀
+    full_text = full_text[:512]
     input_text = "summarize: " + full_text.strip()
     
     # 编码输入
-    inputs = t5_tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True)
+    inputs = t5_tokenizer.encode(input_text, return_tensors="pt", max_length=384, truncation=True)
 
     # 生成摘要
     summary_ids = t5_model.generate(
         inputs,
-        max_length=max_tokens,
-        min_length=min_tokens,
+        max_new_tokens=100,
         length_penalty=2.0,
-        num_beams=4,
+        num_beams=2,
         early_stopping=True
     )
     
