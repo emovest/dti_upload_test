@@ -229,9 +229,11 @@ def webhook():
         summary_text = summarize_papers_with_t5(df_to_summarize)
         print("===SUMMARY TEXT===")
         print(summary_text)
+        print(repr(summary_text))
+        print(type(summary_text))
         
         return jsonify({
-            "fulfillmentText": f"📑 Summary of Selected Papers:\n\n{summary_text}"
+            "fulfillmentText": str(summary_text)"
         })
 
 
