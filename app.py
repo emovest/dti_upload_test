@@ -5,6 +5,8 @@ from recommend_more import recommend_more_from_liked_paper, mmr, alternative_rec
 from recommender import predict, recommend_paper
 import json
 import pandas as pd
+from summarize_papers_with_t5 import summarize_papers_with_t5 
+
 
 
 
@@ -215,6 +217,31 @@ def webhook():
         })
 
     
+    elif intent == "getSummary":
+        liked_abstract = redis.get(f"{user_id}:liked_abstract")
+        more_abstracts = redis.get(f"{user_id}:more_abstracts")
+        
+        if liked_abstract is None or more_abstracts is None:
+            return jsonify({
+                "fulfillmentMessages": [
+                    {"text": {"text": ["⚠️ Sorry, I need both the liked and recommended abstracts to generate a summary."]}}
+                ]
+            })
+            
+         # 合并 DataFrame
+         all_abstracts = [liked_abstract] + json.loads(more_abstracts)
+         df_to_summarize = pd.DataFrame(all_abstracts, columns=["original_abstract"])
+
+         # 调用 T5 摘要函数
+         summary_text = summarize_papers_with_t5(df_to_summarize)
+ 
+         return jsonify({
+             "fulfillmentMessages": [
+                 {"text": {"text": [f"📝 Summary of Selected Papers:\n\n{summary_text}"]}}
+             ]
+         })
+
+
     # 兜底情况
     else:
         return jsonify({
