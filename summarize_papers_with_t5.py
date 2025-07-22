@@ -1,18 +1,11 @@
 ## Summarization with T5-small ##
 
 from transformers import T5Tokenizer, T5ForConditionalGeneration
-import torch
 
 # 初始化模型和分词器
 t5_tokenizer = T5Tokenizer.from_pretrained("google/t5-efficient-tiny")
 t5_model = T5ForConditionalGeneration.from_pretrained("google/t5-efficient-tiny")
 
-# Warm-up 预热一次模型，避免 cold start 慢
-dummy = t5_tokenizer("summarize: hello world", return_tensors="pt")
-with torch.no_grad():
-    _ = t5_model.generate(**dummy)
-    
-print("✅ T5 model warm-up complete.")
 
 def summarize_papers_with_t5(papers_df, text_column="original_abstract", max_tokens=400, min_tokens=200):
     abstracts = papers_df[text_column].tolist()
