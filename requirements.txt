@@ -12,3 +12,4 @@ gunicorn
 accelerate>=0.26.0
 upstash-redis
 sentencepiece
+sumy
