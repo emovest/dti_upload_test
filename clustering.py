@@ -24,7 +24,7 @@ def get_cluster_count(label: str) -> int:
 
 def get_top_bigrams(label: str, cluster_id: int) -> list:
 
-    df = bigrams_df[(bigrams_df["label"] == label) & (bigrams_df["cluster"] == cluster_id)]
+    df = bigrams_df[(bigrams_df["label"] == label) & (bigrams_df["cluster_id"] == cluster_id)]
     if df.empty:
         return []
     top_bigrams_str = df.iloc[0]["top_bigrams"]
