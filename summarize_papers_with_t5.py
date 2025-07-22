@@ -22,7 +22,7 @@ def summarize_papers_with_t5(papers_df, text_column="original_abstract", max_tok
         inputs,
         max_new_tokens=100,
         length_penalty=2.0,
-        num_beams=2,
+        num_beams=1,
         early_stopping=True
     )
     
