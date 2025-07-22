@@ -27,7 +27,8 @@ def summarize_papers_with_t5(papers_df, text_column="original_abstract", max_tok
     input_text = "summarize: " + full_text.strip()
     
     # 编码输入
-    inputs = t5_tokenizer.encode(input_text, return_tensors="pt", max_length=256, truncation=True)
+    inputs = t5_tokenizer.encode(input_text, return_tensors="pt", max_length=512, truncation=True)
+    print (inputs)
 
     # 生成摘要
     summary_ids = t5_model.generate(
