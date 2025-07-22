@@ -7,6 +7,7 @@ import json
 import pandas as pd
 from summarize_papers_with_t5 import summarize_papers_with_t5 
 from clustering import get_cluster_count, get_top_bigrams
+from extractive_summary import extractive_summary_sumy
 
 
 
@@ -228,6 +229,28 @@ def webhook():
 
         # 调用 T5 摘要函数
         summary_text = summarize_papers_with_t5(df_to_summarize)
+        print("===SUMMARY TEXT===")
+        print(summary_text)
+        print(repr(summary_text))
+        print(type(summary_text))
+        
+        return jsonify({
+            "fulfillmentMessages": [
+                {"text": {"text": ["📄 Summary of Selected Papers:"]}},
+                {"text": {"text": [summary_text]}}
+            ]
+        })
+
+    
+    elif intent == "getExtraSummary":
+
+        more_abstracts = redis.get(f"{user_id}:more_abstracts")
+        
+        # 合并 DataFrame
+        abstracts_list = json.loads(more_abstracts)
+        
+        # ⬇️ 改用 extractive summarizer，而不是 T5
+        summary_text = extractive_summary_sumy(abstracts_list)
         print("===SUMMARY TEXT===")
         print(summary_text)
         print(repr(summary_text))
