@@ -233,7 +233,7 @@ def webhook():
         print(type(summary_text))
         
         return jsonify({
-            "fulfillmentText": str(summary_text)"
+            "fulfillmentText": str(summary_text)
         })
 
 
