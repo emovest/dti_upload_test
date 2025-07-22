@@ -218,23 +218,18 @@ def webhook():
 
     
     elif intent == "getSummary":
-        liked_abstract = redis.get(f"{user_id}:liked_abstract")
+
         more_abstracts = redis.get(f"{user_id}:more_abstracts")
         
-        if liked_abstract is None or more_abstracts is None:
-            return jsonify({
-                "fulfillmentMessages": [
-                    {"text": {"text": ["⚠️ Sorry, I need both the liked and recommended abstracts to generate a summary."]}}
-                ]
-            })
-            
         # 合并 DataFrame
-        all_abstracts = [liked_abstract] + json.loads(more_abstracts)
-        df_to_summarize = pd.DataFrame(all_abstracts, columns=["original_abstract"])
+        abstracts_list = json.loads(more_abstracts)
+        df_to_summarize = pd.DataFrame(abstracts_list, columns=["original_abstract"])
 
         # 调用 T5 摘要函数
         summary_text = summarize_papers_with_t5(df_to_summarize)
- 
+        print("===SUMMARY TEXT===")
+        print(summary_text)
+        
         return jsonify({
             "fulfillmentMessages": [
                 {"text": {"text": [f"📝 Summary of Selected Papers:\n\n{summary_text}"]}}
