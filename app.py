@@ -8,6 +8,7 @@ import pandas as pd
 from summarize_papers_with_t5 import summarize_papers_with_t5 
 from clustering import get_cluster_count, get_top_bigrams
 from extractive_summary import extractive_summary_sumy
+from topicmodelling import get_topic_count, get_top_words
 
 
 
@@ -347,6 +348,110 @@ def webhook():
         
         return jsonify({
             "fulfillmentText": f"There are {count} main clusters in the Crypto domain.\n\nTop keywords for each cluster:\n{keywords_text}"
+        })
+
+    
+    elif intent == "getCryptoTopic":
+        label = "a"  # 
+        count = get_topic_count(label)
+        
+        topic_lines = [f"📚 There are {count} main topics in this domain:\n"]
+        
+        for topic_id in range(count):
+            top_words = get_top_words(label, topic_id)
+            if not top_words:
+                continue
+            
+            topic_str = f"🔹 *Topic {topic_id+1}*:\n" + ", ".join(top_words)
+            topic_lines.append(topic_str)
+            
+        topics_text = "\n\n".join(topic_lines)
+        
+        return jsonify({
+            "fulfillmentText": topics_text
+        })
+
+    elif intent == "getRealEstateTopic":
+        label = "b"  # 
+        count = get_topic_count(label)
+        
+        topic_lines = [f"📚 There are {count} main topics in this domain:\n"]
+        
+        for topic_id in range(count):
+            top_words = get_top_words(label, topic_id)
+            if not top_words:
+                continue
+            
+            topic_str = f"🔹 *Topic {topic_id+1}*:\n" + ", ".join(top_words)
+            topic_lines.append(topic_str)
+            
+        topics_text = "\n\n".join(topic_lines)
+        
+        return jsonify({
+            "fulfillmentText": topics_text
+        })
+
+    
+    elif intent == "getGlodTopic":
+        label = "c"  # 
+        count = get_topic_count(label)
+        
+        topic_lines = [f"📚 There are {count} main topics in this domain:\n"]
+        
+        for topic_id in range(count):
+            top_words = get_top_words(label, topic_id)
+            if not top_words:
+                continue
+            
+            topic_str = f"🔹 *Topic {topic_id+1}*:\n" + ", ".join(top_words)
+            topic_lines.append(topic_str)
+            
+        topics_text = "\n\n".join(topic_lines)
+        
+        return jsonify({
+            "fulfillmentText": topics_text
+        })
+
+    
+    elif intent == "getArtsTopic":
+        label = "e"  # 
+        count = get_topic_count(label)
+        
+        topic_lines = [f"📚 There are {count} main topics in this domain:\n"]
+        
+        for topic_id in range(count):
+            top_words = get_top_words(label, topic_id)
+            if not top_words:
+                continue
+            
+            topic_str = f"🔹 *Topic {topic_id+1}*:\n" + ", ".join(top_words)
+            topic_lines.append(topic_str)
+            
+        topics_text = "\n\n".join(topic_lines)
+        
+        return jsonify({
+            "fulfillmentText": topics_text
+        })
+
+    
+    elif intent == "getStockTopic":
+        label = "e"  # 
+        count = get_topic_count(label)
+        
+        topic_lines = [f"📚 There are {count} main topics in this domain:\n"]
+        
+        for topic_id in range(count):
+            top_words = get_top_words(label, topic_id)
+            if not top_words:
+                continue
+            
+            topic_str = f"🔹 *Topic {topic_id+1}*:\n" + ", ".join(top_words)
+            topic_lines.append(topic_str)
+            
+        topics_text = "\n\n".join(topic_lines)
+        
+        return jsonify({
+            "fulfillmentText": topics_text
         })
 
     
